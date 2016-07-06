@@ -14,15 +14,15 @@ import panlex
 #Example call: python3 TranslationCheck.py cat eng-000 fra-000
 
 limit = 100
-smooth = 0 #6 seems to work well, but until we talk about it...
+smooth = 6 #6 seems to work well, but until we talk about it...
 #command line arguments: source word, source language, target language. Optional: limit number of results.
 startWord = sys.argv[1]
 lang1 = sys.argv[2]
 lang2 = sys.argv[3]
-if len(sys.argv) == 5:
-    limit = int(sys.argv[4])
 if len(sys.argv) == 6:
-    smooth = int(sys.argv[5])
+    limit = int(sys.argv[5])
+if len(sys.argv) == 5:
+    smooth = int(sys.argv[4])
 
 paramStart = {"uid":lang2,
               "truid":lang1,
@@ -120,7 +120,7 @@ for word3Result in d2['result']:
     print(word3 + " score of " + str(scores[word3]))
 
 resultList = sorted(scores, key=scores.__getitem__, reverse = True)
-print("Scores for " + startWord + " in " + lang2 + ":")
+print("\n\n\nScores for " + startWord + " in " + lang2 + ":")
 for item in resultList:
     x = item + ' with a score of ' + str(scores[item])
     print(x)
