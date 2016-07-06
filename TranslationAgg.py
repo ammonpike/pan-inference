@@ -11,18 +11,18 @@ import panlex
 #   all translations from a target word in lang2 to lang3
 #   to the sum of the union of the same.
 #Scores for possible translations in language 2 will be ranked.
-#Example call: python3 TranslationCheck.py cat eng-000 fra-000
+#Example call: python3 TranslationCheck.py cat eng-000 fra-000 (smoothing) (limit to results)
 
 limit = 100
-smooth = 0 #6 seems to work well, but until we talk about it...
+smooth = 6 #6 seems to work well, but until we talk about it...
 #command line arguments: source word, source language, target language. Optional: limit number of results.
 startWord = sys.argv[1]
 lang1 = sys.argv[2]
 lang2 = sys.argv[3]
-if len(sys.argv) == 5:
-    limit = int(sys.argv[4])
 if len(sys.argv) == 6:
-    smooth = int(sys.argv[5])
+    limit = int(sys.argv[5])
+if len(sys.argv) == 5:
+    smooth = int(sys.argv[4])
 
 paramStart = {"uid":lang2,
               "truid":lang1,
