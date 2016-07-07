@@ -120,7 +120,7 @@ for word3Result in d2['result']:
     print(word3 + " score of " + str(scores[word3]))
 
 resultList = sorted(scores, key=scores.__getitem__, reverse = True)
-print("Scores for " + startWord + " in " + lang2 + ":")
+print("\n\n\nScores for " + startWord + " in " + lang2 + ":")
 for item in resultList:
     x = item + ' with a score of ' + str(scores[item])
     print(x)

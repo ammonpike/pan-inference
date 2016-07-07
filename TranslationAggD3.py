@@ -15,12 +15,15 @@ import time
 #Example call: python3 TranslationCheck.py cat eng-000 fra-000
 
 limit = 100
-#command line arguments: source word, source language, target language. Optional: limit number of results.
+secondLimit = 2
+#command line arguments: source word, source language, target language. Optional: limit number of results, limit languages processed.
 startWord = sys.argv[1]
 lang1 = sys.argv[2]
 lang3 = sys.argv[3]
 if len(sys.argv) == 5:
     limit = int(sys.argv[4])
+if len(sys.argv) == 6:
+    secondLimit == int(sys.argv[5])
 
 #From lang3, find all languages with d1 translations.
 #Query is /ap "uid": lang3, "include": "lv"
@@ -156,7 +159,7 @@ for lang2 in lang2List:
 #        x = item + ' with a score of ' + str(scores[item])
 #        print(x)
     distance2Dict.update(scores)
-    if i == 2:
+    if i == secondLimit:
         break
 #End of D2 Loop.
 
@@ -167,26 +170,26 @@ finalQueryParam = {"uid": lang3,
                     "include":['trq'],
                     "sort": "trq desc",}
 finalQuery = panlex.query("/ex",finalQueryParam)
-print(finalQuery)
 
 d1Results = {}
+totalTQ = 0.0
+for result in finalQuery['result']:
+    d1Results[result['tt']] = [result['trq'], result['trex']]
+    totalTQ += result['trq']
 
-for source in finalQuery['result']:
-    totalTQ = 0.0
-    for result in source:
-        d1Results[result] = result['tt']
-        totalTQ += result['trq']
-    for result in d1Results:
-        d1Results[result] = d1Results[result] / totalTQ
-
+for item in d1Results:
+        d1Results[item][0] = int(d1Results[item][0]) / totalTQ
+        
 d3Results = {}
-
+#print(d1Results)
+#print(distance2Dict)
 for word in d1Results:
-    d3Results[word] = (d1Results[word] + distance2Dict[word]) / 2
+    d3Results[word] = (d1Results[word][0] + distance2Dict[d1Results[word][1]]) / 2
 
 resultList = sorted(d3Results, key=d3Results.__getitem__, reverse = True)
-
-print(resultList)
+print("\n\nDistance 3 scores:")
+for word in resultList:
+    print(word + " score of " + str(d3Results[word]))
 #Perform magic math to combine d1 score with d2 score.
 #maybe multiply scores? Reflect: lower confidence in greater distance.
 #or use D2 algorithm with D2 score standing in for weights on left, D1 on right
