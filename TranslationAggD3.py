@@ -150,6 +150,8 @@ for lang2 in lang2List:
             if len(front) == 1 and len(back) == 1:
 #                print(tqSum)
                 scores[word3] = tqSum / 18 #18 is max value of two entries
+                if scores[word3] > 1.0:
+                    scores [word3] = 1.0
         print(str(word3) + " score of " + str(scores[word3]))
 
 #Change this part so scores are stored in a file... somewhere.
@@ -190,7 +192,7 @@ resultList = sorted(d3Results, key=d3Results.__getitem__, reverse = True)
 print("\n\nDistance 3 scores:")
 for word in resultList:
     print(word + " score of " + str(d3Results[word]))
-#Perform magic math to combine d1 score with d2 score.
+#Perform math to combine d1 score with d2 score. (currently averages them)
 #maybe multiply scores? Reflect: lower confidence in greater distance.
 #or use D2 algorithm with D2 score standing in for weights on left, D1 on right
 #Compare all translations of word to list of D2 translations (by language?, sum matches over total (weight is tq * d2 score?)

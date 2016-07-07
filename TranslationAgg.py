@@ -13,9 +13,11 @@ import panlex
 #Scores for possible translations in language 2 will be ranked.
 #Example call: python3 TranslationCheck.py cat eng-000 fra-000 (smoothing) (limit to results)
 
+#Known issue: Server is timing out when run with high limits. (2000 -> 1500, 1000 -> 500, 500 -> 150)
+
 limit = 100
 smooth = 6 #6 seems to work well, but until we talk about it...
-#command line arguments: source word, source language, target language. Optional: limit number of results.
+#command line arguments: source word, source language, target language. Optional: smoothing, then limit number of results.
 startWord = sys.argv[1]
 lang1 = sys.argv[2]
 lang2 = sys.argv[3]
