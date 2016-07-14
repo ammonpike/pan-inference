@@ -176,7 +176,13 @@ finalQuery = panlex.query("/ex",finalQueryParam)
 d1Results = {}
 totalTQ = 0.0
 for result in finalQuery['result']:
-    d1Results[result['tt']] = [result['trq'], result['trex']]
+#perhaps insert some code to check for duplicate results
+#and combine them here...
+#maybe change from tuple to dictionary and list...?
+    if result['tt'] in d1Results:
+        d1Results[result['tt']] = [d1Results[result['tt']][0] + result['trq'], result['trex']]
+    else:
+        d1Results[result['tt']] = [result['trq'], result['trex']]
     totalTQ += result['trq']
 
 for item in d1Results:

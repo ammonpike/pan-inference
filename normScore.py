@@ -28,8 +28,9 @@ def d2Score(lang1, startWord, lang2, endWord):
                 "trdistance":2,
                 "include":['trq', 'trpath'],
                 "sort":'trq desc',
-                "limit": limit,}
+                }
     d2 = panlex.query("/ex",paramStart)
+    pathDict = {}
     for pathSet in d2['result'][0]['trpath']:
         if pathSet[0]['ex2'] in pathDict:
             pathDict[pathSet[0]['ex2']] += 1
@@ -58,7 +59,7 @@ def d2Score(lang1, startWord, lang2, endWord):
                     "include":"trq",}
     backwardParam = {"uid":ling,
                     "truid":lang2,
-                    "trtt":word3,
+                    "trtt":endWord,
                     "include":"trq",}
                     
     frontCheck = panlex.query('/ex', forwardParam)
@@ -101,8 +102,8 @@ def d2Score(lang1, startWord, lang2, endWord):
     score = tqSum / (tqTotal + 6) #best smoothing number to date
     #+ 1? That would curve the 1.0 scores (very) slightly.
     #Actually, it would have greater impact the smaller the sample size. It could even be + 2 (one one-ranked for each side)
-#    if scores[word3] == 1:
+#    if scores[endWord] == 1:
 #        if len(front) == 1 and len(back) == 1:
 #            print(tqSum)
-#            scores[word3] = tqSum / 18 #18 is max value of two dictionary entries
+#            scores[endWord] = tqSum / 18 #18 is max value of two dictionary entries
     return score

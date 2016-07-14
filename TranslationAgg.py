@@ -111,7 +111,9 @@ for word3Result in d2['result']:
         if word in front:
             tqSum += back[word]
         tqTotal += back[word]
-    
+    #theoretically, could the two above steps be combined?
+    #For example, add result to trq AND tqTotal
+    #Can items be 'in' JSON objects? Is it efficient?
     scores[word3] = tqSum / (tqTotal + smooth)
     #+ 1? That would curve the 1.0 scores (very) slightly.
     #Actually, it would have greater impact the smaller the sample size. It could even be + 2 (one one-ranked for each side)
