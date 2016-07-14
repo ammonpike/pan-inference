@@ -14,9 +14,7 @@ import panlex
 #More efficient to use translationAgg.py for numerous calls
 #Super inefficient, but a good start. Does the job.
 
-#Input file should have ex1, ex2 and score columns
-#ex items should have tt, ex and uid in them
-#score is hash with test as key, score as value
+
 def d1Conf(lang1, startWord, lang2, endWord):   
     queryParam = {"uid":lang2, 
                 "trtt":startWord, 

@@ -6,6 +6,10 @@ import json
 import panlex
 import normScore
 
+#Input file should have ex1, ex2 and score columns
+#ex items should have tt, ex and uid in them
+#score is hash with test as key, score as value
+
 jsonIn = sys.argv[1] #name json input file
 with open(jsonIn, 'r') as file:
     jsonObj = json.load(file)
