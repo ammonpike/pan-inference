@@ -103,7 +103,7 @@ for word3Result in d2['result']:
             if word in front:
                 tqSum += back[word]
             tqTotal += back[word]
-        interLing[ling] = tqSum / tqTotal
+        interLing[ling] = tqSum / tqTotal + 6
         
         
     scoreList = sorted(interLing, key=interLing.__getitem__, reverse = True)
