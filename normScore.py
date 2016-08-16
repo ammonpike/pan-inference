@@ -12,7 +12,7 @@ import panlex
 #but they are designed to get the numbers
 #for testing. Optimization can happen later.
 
-
+#simple (now out of date) method for scoring distance one as basis for distance 2 translations
 def d1Conf(lang1, startWord, lang2, endWord):   
     queryParam = {"uid":lang2, 
                 "trtt":startWord, 
@@ -34,7 +34,8 @@ def d1Conf(lang1, startWord, lang2, endWord):
         return results[endWord]
     else:
         return 0.00
-        
+
+#As above, but uses lv instead of uid for target language        
 def d1ConfF(lang1, startWord, lv2, endWord):   
     queryParam = {"lv":lv2, 
                 "trtt":startWord, 
@@ -57,6 +58,7 @@ def d1ConfF(lang1, startWord, lv2, endWord):
     else:
         return 0.00
 
+#as above, uses lv instead of uid for source language
 def d1ConfB(lv1, startWord, lang2, endWord):   
     queryParam = {"uid":lang2, 
                 "trex":startWord, 
@@ -78,7 +80,11 @@ def d1ConfB(lv1, startWord, lang2, endWord):
         return results[endWord]
     else:
         return 0.00
-        
+
+#Main d2 scoring method. Based on "translationAgg.py" algorithm
+#Finds ratio of same translations in intermediary language to set of all translations in intermediary language
+#Uses ratio as score
+#Used as weight in another test, reimplemented.
 def d2Score(lang1, startWord, lang2, endWord):
     paramStart = {"uid":lang2,
                 "tt":endWord,
@@ -155,6 +161,7 @@ def d2Score(lang1, startWord, lang2, endWord):
 #            scores[endWord] = tqSum / 18 #18 is max value of two dictionary entries
     return score
 
+#Out of date test--uses raw count instead of TQ for scores
 def d2noTQ(lang1, startWord, lang2, endWord):
     paramStart = {"uid":lang2,
                 "tt":endWord,
@@ -232,7 +239,7 @@ def d2noTQ(lang1, startWord, lang2, endWord):
 #            scores[endWord] = tqSum / 18 #18 is max value of two dictionary entries
     return score
     
-#using geometric mean? Results seem to be worse though.
+#using geometric mean? Results seem to be worse though. Out of date
 def d2Geom(lang1, startWord, lang2, endWord):
     paramStart = {"uid":lang2,
                 "tt":endWord,
@@ -308,6 +315,8 @@ def d2Geom(lang1, startWord, lang2, endWord):
     
 #what about an average of d1conf * d1conf? Find both confidence, multiply, sum all paths and divide by number of paths?
 #need uid and tt of intermediate words
+#Uses above d1Conf scores
+#Out of date
 def d2Avg(lang1, startWord, lang2, endWord):
     paramStart = {"uid":lang2,
                 "tt":endWord,
@@ -332,14 +341,13 @@ def d2Avg(lang1, startWord, lang2, endWord):
 #            count = tempScore
 #    return count
 
-def maxD2(lv1, lv2):
-    #retrieve d1 from lv csv file
-    #multiply and sqrt values
     
 #function for combining tr2qa and d2Score
 #Basically do the d2Score, but while calculating note lv of intermediate languages
-#retrieve max d1 scores for each lv
-#divide tr2qa by maxD2
+#retrieve max d1 scores for each lv change
+#divide tr2qa (score provided by PanLex) by maxD2 (estimated maximum tr2qa)
+#multiply by weight--d2Score result
+#Final test run, shows results are less trustworthy.
 def d2Hybrid(lang1, startWord, lang2, endWord, qaScore):
     paramStart = {"uid":lang2,
                 "tt":endWord,
